@@ -3,6 +3,9 @@ const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const InterpolateHtmlPlugin = require("interpolate-html-plugin");
 const production = (process.env.NODE_ENV = "production");
+const dotenv = require("dotenv");
+
+dotenv.config();
 
 module.exports = {
   mode: production ? "production" : "development",
@@ -54,5 +57,8 @@ module.exports = {
     }),
     new webpack.HotModuleReplacementPlugin(),
     new InterpolateHtmlPlugin({ PUBLIC_URL: "" }),
+    new webpack.DefinePlugin({
+      "process.env": JSON.stringify(process.env),
+    }),
   ],
 };
