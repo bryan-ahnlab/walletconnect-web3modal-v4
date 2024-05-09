@@ -1,75 +1,187 @@
-import React from "react";
+import React, { useCallback } from "react";
 import "./App.css";
 
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { createWeb3Modal } from "@web3modal/wagmi/react";
-import { WagmiProvider } from "wagmi";
+import { modal } from "./wagmiConfig";
+
 import {
-  createConfig,
-  http,
-  useConnect,
   useAccount,
   useDisconnect,
-  useEnsName,
-  useEnsAvatar,
+  useConnect,
+  useSignMessage,
+  useSignTypedData,
+  useSendTransaction,
+  useEstimateGas,
 } from "wagmi";
-import { klaytnBaobab } from "wagmi/chains";
-import { walletConnect, injected } from "wagmi/connectors";
+import { parseEther, type Address } from "viem";
 
-const projectId = process.env.REACT_APP_PROJECT_ID as string | "";
-const walletId = process.env.REACT_APP_WALLET_ID as string | "";
+function App() {
+  const account = useAccount();
+  const { status, error } = useConnect();
+  const { disconnect } = useDisconnect();
+  const { signMessage } = useSignMessage();
+  const { signTypedData } = useSignTypedData();
+  const { sendTransaction } = useSendTransaction();
 
-const metadata = {
-  name: "Web3Modal",
-  description: "Web3Modal Example",
-  url: "https://web3modal.com", // origin must match your domain & subdomain
-  icons: ["https://avatars.githubusercontent.com/u/37784886"],
-};
+  async function handleConnect() {
+    try {
+      modal.open();
+    } catch (error) {
+      console.error(error);
+    }
+  }
 
-const config = createConfig({
-  chains: [klaytnBaobab],
-  transports: {
-    [klaytnBaobab.id]: http(),
-  },
-  connectors: [
-    walletConnect({
-      projectId,
-      metadata,
-      showQrModal: false,
-      qrModalOptions: {
-        explorerRecommendedWalletIds: [walletId],
+  async function handleDisconnect() {
+    try {
+      disconnect();
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  async function handleSignMessage() {
+    const data = "hello world!";
+    signMessage({ message: data });
+  }
+  async function handleSignTypedData() {
+    const types = {
+      Person: [
+        { name: "name", type: "string" },
+        { name: "wallet", type: "address" },
+      ],
+      Mail: [
+        { name: "from", type: "Person" },
+        { name: "to", type: "Person" },
+        { name: "contents", type: "string" },
+      ],
+    } as const;
+    const message = {
+      from: {
+        name: "Cow",
+        wallet: "0xCD2a3d9F938E13CD947Ec05AbC7FE734Df8DD826",
       },
-    }),
-    injected({ shimDisconnect: true }),
-  ],
-});
+      to: {
+        name: "Bob",
+        wallet: "0xbBbBBBBbbBBBbbbBbbBbbbbBBbBbbbbBbBbbBBbB",
+      },
+      contents: "Hello, Bob!",
+    } as const;
+    const domain = {
+      name: "Ether Mail",
+      version: "1",
+      chainId: 1001,
+      verifyingContract: "0xCcCCccccCCCCcCCCCCCcCcCccCcCCCcCcccccccC",
+    } as const;
+    const data: {
+      domain: typeof domain;
+      message: typeof message;
+      primaryType: "Mail";
+      types: typeof types;
+    } = {
+      domain,
+      message,
+      primaryType: "Mail",
+      types,
+    };
+    signTypedData(data);
+  }
 
-const modal = createWeb3Modal({
-  wagmiConfig: config,
-  projectId,
-  enableAnalytics: true, // Optional - defaults to your Cloud configuration
-  includeWalletIds: [walletId],
-});
-
-modal.subscribeEvents((event) => {
-  console.log(event);
-});
-
-/*  */
-
-/*  */
-
-const App = () => {
-  const queryClient = new QueryClient();
+  const sendTransactionData = {
+    to: process.env.REACT_APP_TEST_ACCOUNT as Address,
+    value: parseEther("0.001"),
+  };
+  const { data: gas, error: prepareError } =
+    useEstimateGas(sendTransactionData);
+  const handleSendTransaction = useCallback(() => {
+    if (prepareError) {
+      console.error(prepareError);
+    } else {
+      sendTransaction({ ...sendTransactionData, gas });
+    }
+  }, [sendTransaction, prepareError]);
 
   return (
-    <WagmiProvider config={config}>
-      <QueryClientProvider client={queryClient}>
-        <w3m-connect-button></w3m-connect-button>
-        <w3m-network-button></w3m-network-button>
-        <w3m-account-button></w3m-account-button>
-      </QueryClientProvider>
-    </WagmiProvider>
+    <div className="App" style={{ textAlign: "center", padding: "0 2rem" }}>
+      <h1>Wallet Connect v4.0 Sample</h1>
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          gap: "1rem",
+          alignItems: "center",
+        }}
+      >
+        <button
+          className="button"
+          onClick={handleConnect}
+          disabled={account.status === "connected"}
+        >
+          Connect
+        </button>
+        <button
+          className="button"
+          onClick={handleDisconnect}
+          disabled={account.status !== "connected"}
+        >
+          Disconnect
+        </button>
+        <button
+          className="button"
+          onClick={handleSignMessage}
+          disabled={account.status !== "connected"}
+        >
+          Sign Message
+        </button>
+        <button
+          className="button"
+          onClick={handleSignTypedData}
+          disabled={account.status !== "connected"}
+        >
+          Sign Typed Data
+        </button>
+        <button
+          className="button"
+          onClick={handleSendTransaction}
+          disabled={account.status !== "connected"}
+        >
+          Send Transaction
+        </button>
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            gap: "1rem",
+            alignItems: "center",
+          }}
+        >
+          <span style={{ wordBreak: "break-all" }}>
+            connect status: {status} {error?.message}
+          </span>
+        </div>
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            gap: "1rem",
+            alignItems: "center",
+          }}
+        >
+          <span style={{ wordBreak: "break-all" }}>
+            account status: {account.status}
+          </span>
+          {account.status === "connected" ? (
+            <span style={{ wordBreak: "break-all" }}>
+              account address: {account.addresses}
+            </span>
+          ) : null}
+          {account.status === "connected" ? (
+            <span style={{ wordBreak: "break-all" }}>
+              account chainId: {account.chainId}
+            </span>
+          ) : null}
+        </div>
+      </div>
+    </div>
   );
-};
+}
+
 export default App;
