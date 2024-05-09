@@ -9,7 +9,7 @@ const walletId = process.env.REACT_APP_WALLET_ID as string | "";
 
 const metadata = {
   name: "ABC DApp",
-  description: "Wallet Connect v4.0 Sample",
+  description: "Wallet Connect Web3Modal v4.0 Sample",
   url: "https://abc-dapp.com",
   icons: [
     "https://explorer-api.walletconnect.com/v3/logo/lg/f9854c79-14ba-4987-42e1-4a82abbf5700?projectId=2f05ae7f1116030fde2d36508f472bfb",

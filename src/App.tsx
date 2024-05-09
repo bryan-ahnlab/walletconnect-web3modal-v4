@@ -20,6 +20,8 @@ import {
   SignTypedDataReturnType,
 } from "viem";
 
+const testAccount = process.env.REACT_APP_TEST_ACCOUNT as string | "";
+
 function App() {
   const account = useAccount();
   const { status, error } = useConnect();
@@ -111,7 +113,7 @@ function App() {
   }
 
   const sendTransactionAsyncData = {
-    to: process.env.REACT_APP_TEST_ACCOUNT as Address,
+    to: testAccount as Address,
     value: parseEther("0.001"),
   };
   const { data: gas, error: prepareError } = useEstimateGas(
@@ -135,7 +137,7 @@ function App() {
 
   return (
     <div className="App" style={{ textAlign: "center", padding: "0 2rem" }}>
-      <h1>Wallet Connect v4.0 Sample</h1>
+      <h1>Wallet Connect Web3Modal v4.0 Sample</h1>
       <div
         style={{
           display: "flex",
