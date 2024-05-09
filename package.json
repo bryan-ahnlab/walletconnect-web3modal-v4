@@ -14,21 +14,27 @@
     "ts-loader": "^9.5.1",
     "viem": "^2.10.2",
     "wagmi": "^2.8.3",
-    "webpack": "^5.91.0",
-    "webpack-cli": "^5.1.4",
     "webpack-manifest-plugin": "^5.0.0"
   },
   "devDependencies": {
+    "@babel/core": "^7.24.5",
+    "@babel/preset-env": "^7.24.5",
+    "@babel/preset-react": "^7.24.1",
     "@types/react": "^18.3.0",
     "@types/react-dom": "^18.3.0",
+    "babel-loader": "^9.1.3",
     "css-loader": "^7.1.1",
     "html-webpack-plugin": "^5.6.0",
+    "rimraf": "^5.0.5",
     "style-loader": "^4.0.0",
     "typescript": "^5.4.5",
+    "webpack": "^5.91.0",
+    "webpack-cli": "^5.1.4",
     "webpack-dev-server": "^5.0.4"
   },
   "scripts": {
     "dev": "webpack serve --mode development --open --hot",
+    "prebuild": "rimraf dist",
     "build": "webpack --mode production",
     "start": "webpack --mode development"
   }
