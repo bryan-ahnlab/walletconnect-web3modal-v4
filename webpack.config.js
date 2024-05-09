@@ -11,9 +11,6 @@ module.exports = {
   mode: production ? "production" : "development",
   devtool: production ? "hidden-source-map" : "eval",
   entry: "./src/index.tsx",
-  resolve: {
-    extensions: [".js", ".jsx", ".ts", ".tsx"],
-  },
 
   module: {
     rules: [
