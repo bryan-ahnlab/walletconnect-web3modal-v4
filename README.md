@@ -21,6 +21,6 @@ REACT_APP_PROJECT_ID="프로젝트 아이디"
 ```
 
 ```bash
-npm install
-npm start
+yarn install
+yarn dev
 ```
