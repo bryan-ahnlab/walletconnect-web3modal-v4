@@ -35,6 +35,6 @@
     "dev": "webpack serve --mode development --open --hot",
     "prebuild": "rimraf dist",
     "build": "webpack --mode production",
-    "start": "webpack --mode development"
+    "start": "webpack serve --mode production --open --hot"
   }
 }
