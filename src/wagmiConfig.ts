@@ -4,8 +4,8 @@ import { injected, walletConnect } from "wagmi/connectors";
 
 import { createWeb3Modal } from "@web3modal/wagmi/react";
 
-const projectId = process.env.REACT_APP_PROJECT_ID as string | "";
-const walletId = process.env.REACT_APP_WALLET_ID as string | "";
+const projectId = process.env.REACT_APP_PROJECT_ID || "";
+const walletId = process.env.REACT_APP_WALLET_ID || "";
 
 const metadata = {
   name: "ABC DApp",

@@ -1,7 +1,7 @@
-import React, { useCallback } from "react";
+import React from "react";
 import "./App.css";
 
-import { modal } from "./wagmiConfig";
+import { useCallback } from "react";
 
 import {
   useAccount,
@@ -20,7 +20,9 @@ import {
   SignTypedDataReturnType,
 } from "viem";
 
-const testAccount = process.env.REACT_APP_TEST_ACCOUNT as string | "";
+import { modal } from "./wagmiConfig";
+
+const testAccount = process.env.REACT_APP_TEST_ACCOUNT || "";
 
 function App() {
   const account = useAccount();
@@ -30,32 +32,33 @@ function App() {
   const { signTypedDataAsync } = useSignTypedData();
   const { sendTransactionAsync } = useSendTransaction();
 
-  async function handleConnect() {
+  const handleConnect = useCallback(async () => {
     try {
       modal.open();
     } catch (error) {
-      console.error(error);
+      console.error(`handleConnect: ${error}`);
     }
-  }
+  }, [modal]);
 
-  async function handleDisconnect() {
+  const handleDisconnect = useCallback(async () => {
     try {
       disconnect();
     } catch (error) {
-      console.error(error);
+      console.error(`handleDisconnect: ${error}`);
     }
-  }
+  }, [disconnect]);
 
-  async function handleSignMessage() {
+  const handleSignMessage = useCallback(async () => {
     try {
       const data = "hello world!";
       const response = await signMessageAsync({ message: data });
       console.info(`handleSignMessage: ${response}`);
-    } catch {
-      console.error(`handleSignMessage: Failed to sign message`);
+    } catch (error) {
+      console.error(`handleSignMessage: ${error}`);
     }
-  }
-  async function handleSignTypedData() {
+  }, [signMessageAsync]);
+
+  const handleSignTypedData = useCallback(async () => {
     try {
       const types = {
         Person: [
@@ -107,10 +110,10 @@ function App() {
           (account.address as unknown as String) == (response as String)
         }`
       );
-    } catch {
-      console.error(`handleSignTypedData: Failed to sign typed data`);
+    } catch (error) {
+      console.error(`handleSignTypedData: ${ErrorEvent}`);
     }
-  }
+  }, [signTypedDataAsync, account]);
 
   const sendTransactionAsyncData = {
     to: testAccount as Address,
@@ -121,7 +124,7 @@ function App() {
   );
   const handleSendTransaction = useCallback(async () => {
     if (prepareError) {
-      console.error(`handleSendTransaction: ${prepareError}`);
+      console.error(`useEstimateGas: ${prepareError}`);
     } else {
       try {
         const response = await sendTransactionAsync({
@@ -133,7 +136,7 @@ function App() {
         console.error(`handleSendTransaction: ${error}`);
       }
     }
-  }, [sendTransactionAsync, prepareError]);
+  }, [sendTransactionAsync, prepareError, gas, sendTransactionAsyncData]);
 
   return (
     <div className="App" style={{ textAlign: "center", padding: "0 2rem" }}>
