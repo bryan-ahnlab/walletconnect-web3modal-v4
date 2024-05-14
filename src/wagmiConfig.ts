@@ -1,5 +1,5 @@
 import { createConfig, http } from "wagmi";
-import { klaytnBaobab } from "wagmi/chains";
+import { klaytn } from "wagmi/chains";
 import { injected, walletConnect } from "wagmi/connectors";
 
 import { createWeb3Modal } from "@web3modal/wagmi/react";
@@ -17,9 +17,9 @@ const metadata = {
 };
 
 export const wagmiConfig = createConfig({
-  chains: [klaytnBaobab],
+  chains: [klaytn],
   transports: {
-    [klaytnBaobab.id]: http(),
+    [klaytn.id]: http(),
   },
   connectors: [
     walletConnect({
