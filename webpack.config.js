@@ -37,7 +37,7 @@ module.exports = {
 
   devServer: {
     historyApiFallback: true,
-    port: 3000,
+    port: 7004,
     hot: true,
     static: path.resolve(__dirname, "dist"),
     /* proxy: "localhost:3000", */
