@@ -175,7 +175,7 @@ function App() {
           onClick={handleSignTypedData}
           disabled={account.status !== "connected"}
         >
-          Sign Typed Data
+          Sign Typed Data V4
         </button>
         <button
           className="button"
