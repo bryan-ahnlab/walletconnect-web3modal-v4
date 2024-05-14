@@ -85,7 +85,7 @@ function App() {
       const domain = {
         name: "Ether Mail",
         version: "1",
-        chainId: 1001,
+        chainId: 8217,
         verifyingContract: "0xCcCCccccCCCCcCCCCCCcCcCccCcCCCcCcccccccC",
       } as const;
       const data: {
@@ -175,7 +175,7 @@ function App() {
           onClick={handleSignTypedData}
           disabled={account.status !== "connected"}
         >
-          Sign Typed Data V4
+          Sign Typed Data
         </button>
         <button
           className="button"
