@@ -11,6 +11,7 @@ import {
   useSignTypedData,
   useSendTransaction,
   useEstimateGas,
+  useSwitchChain,
 } from "wagmi";
 import {
   parseEther,
@@ -138,6 +139,8 @@ function App() {
     }
   }, [sendTransactionAsync, prepareError, gas, sendTransactionAsyncData]);
 
+  const { chains, switchChain } = useSwitchChain();
+
   return (
     <div className="App" style={{ textAlign: "center", padding: "0 2rem" }}>
       <h1>Wallet Connect Web3Modal v4.0 Sample</h1>
@@ -217,6 +220,25 @@ function App() {
               account chainId: {account.chainId}
             </span>
           ) : null}
+        </div>
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            width: "100%",
+            gap: "1rem",
+          }}
+        >
+          {chains.map((chain) => (
+            <button
+              className="button"
+              key={chain.id}
+              onClick={() => switchChain({ chainId: chain.id })}
+              disabled={account.status !== "connected"}
+            >
+              {chain.name}
+            </button>
+          ))}
         </div>
       </div>
     </div>
