@@ -240,6 +240,127 @@ function App() {
             </button>
           ))}
         </div>
+        {/* Web Components */}
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            gap: "1rem",
+            justifyContent: "center",
+            alignItems: "center",
+            backgroundColor: "black",
+            padding: "0.5rem 1rem",
+            borderRadius: "20px",
+          }}
+        >
+          <a
+            href="https://docs.walletconnect.com/appkit/react/core/components#w3m-button-"
+            target="_blank"
+            style={{ textDecoration: "none" }}
+          >
+            <span
+              style={{
+                wordBreak: "break-all",
+                color: "white",
+                fontSize: "1rem",
+                fontWeight: "bold",
+              }}
+            >
+              w3m-button:
+            </span>
+          </a>
+          <w3m-button />
+        </div>
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            gap: "1rem",
+            justifyContent: "center",
+            alignItems: "center",
+            backgroundColor: "black",
+            padding: "0.5rem 1rem",
+            borderRadius: "20px",
+          }}
+        >
+          <a
+            href="https://docs.walletconnect.com/appkit/react/core/components#w3m-account-button-"
+            target="_blank"
+            style={{ textDecoration: "none" }}
+          >
+            <span
+              style={{
+                wordBreak: "break-all",
+                color: "white",
+                fontSize: "1rem",
+                fontWeight: "bold",
+              }}
+            >
+              w3m-account-button:
+            </span>
+          </a>
+          <w3m-account-button />
+        </div>
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            gap: "1rem",
+            justifyContent: "center",
+            alignItems: "center",
+            backgroundColor: "black",
+            padding: "0.5rem 1rem",
+            borderRadius: "20px",
+          }}
+        >
+          <a
+            href="https://docs.walletconnect.com/appkit/react/core/components#w3m-connect-button-"
+            target="_blank"
+            style={{ textDecoration: "none" }}
+          >
+            <span
+              style={{
+                wordBreak: "break-all",
+                color: "white",
+                fontSize: "1rem",
+                fontWeight: "bold",
+              }}
+            >
+              w3m-connect-button:
+            </span>
+          </a>
+          <w3m-connect-button />
+        </div>
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            gap: "1rem",
+            justifyContent: "center",
+            alignItems: "center",
+            backgroundColor: "black",
+            padding: "0.5rem 1rem",
+            borderRadius: "20px",
+          }}
+        >
+          <a
+            href="https://docs.walletconnect.com/appkit/react/core/components#w3m-connect-button-"
+            target="_blank"
+            style={{ textDecoration: "none" }}
+          >
+            <span
+              style={{
+                wordBreak: "break-all",
+                color: "white",
+                fontSize: "1rem",
+                fontWeight: "bold",
+              }}
+            >
+              w3m-network-button:
+            </span>
+          </a>
+          <w3m-network-button />
+        </div>
       </div>
     </div>
   );
